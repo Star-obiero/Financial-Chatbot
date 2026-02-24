@@ -5,13 +5,18 @@ from dotenv import load_dotenv
 from finance_data import get_stock_price, get_crypto_price, get_market_summary
 from prompts import SYSTEM_PROMPT, build_user_message
 from utils import format_stock_info, clean_ticker
-
 import streamlit as st
 load_dotenv()
 
 # Works both locally and on Streamlit Cloud
-api_key = os.getenv('GROQ_API_KEY') or st.secrets.get("GROQ_API_KEY", None)
+try:
+    import streamlit as st
+    api_key = st.secrets["GROQ_API_KEY"]
+except Exception:
+    api_key = os.getenv('GROQ_API_KEY')
+
 client = Groq(api_key=api_key)
+
 
 GROQ_API_KEY = "gsk_your-actual-key-here"
 
