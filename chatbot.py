@@ -6,8 +6,14 @@ from finance_data import get_stock_price, get_crypto_price, get_market_summary
 from prompts import SYSTEM_PROMPT, build_user_message
 from utils import format_stock_info, clean_ticker
 
+import streamlit as st
 load_dotenv()
-client = Groq(api_key=os.getenv('GROQ_API_KEY'))
+
+# Works both locally and on Streamlit Cloud
+api_key = os.getenv('GROQ_API_KEY') or st.secrets.get("GROQ_API_KEY", None)
+client = Groq(api_key=api_key)
+
+GROQ_API_KEY = "gsk_your-actual-key-here"
 
 STOCK_KEYWORDS = ['price', 'stock', 'share', 'trading', 'ticker']
 CRYPTO_KEYWORDS = ['bitcoin', 'btc', 'ethereum', 'eth', 'crypto', 'coin']
